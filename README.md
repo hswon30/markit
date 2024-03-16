@@ -1,7 +1,7 @@
-# Markit
-An image-based brand logo similarity search project using GCP to check trademark infringement in seconds!✨
-
 ![Markit logo](https://github.com/hswon30/markit/blob/070455905658f00637200c1e4a2b33dc7f4338fb/markit_logo.jpg)
+
+# Welcome to Markit
+<h2>Image-based brand logo similarity search project using GCP to check trademark infringement in seconds!✨</h2>
 
 Markit is a GCP-based interactive WebApp that enables users to quickly check✔️ how similar your brand logo is to a registered, pre-existing logo.
 
@@ -17,3 +17,4 @@ Markit also supports direct upload of photos from your phone, although we sugges
 
 Please check out https://markit-live-v2.uc.r.appspot.com/ for an active demo!
 
+For more information on how this project came about, (in Korean only) please see the [Official makings document](https://github.com/hswon30/markit/blob/795d8c45eecb902d6c7be88b540b637fad740d5a/GCP_markit_%EB%B0%9C%ED%91%9C_%EC%B5%9C%EC%A2%85.pptx.pdf)
