@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../static/css/result.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="app-container flex justify-center items-end pb-10">
+        <div class="circle rounded-full"></div>
+        <div class="absolute top-6 flex flex-col w-full items-center">
+            <div class="flex items-center w-full">
+                <div class="flex px-6">
+                    <div class="h-2 w-2 rounded-full mx-1 red"></div>
+                    <div class="h-2 w-2 rounded-full mx-1 yellow"></div>
+                    <div class="h-2 w-2 rounded-full mx-1 green"></div>
+                </div>
+                <div class="flex bg-white items-center w-5/12 px-6 py-4 rounded-md app-shadow">
+                    <i class="fa-solid fa-star app-color-yellow text-xs"></i>
+                    <span class="font-bold app-color-black ml-4 mr-auto text-xs">markit.com</span>
+                    <i class="fa-solid fa-ellipsis app-color-lavendar"></i>
+                </div>
+                <div class="mr-auto flex app-bg-light-white rounded-md px-6 py-4 ml-3 app-shadow">
+                    <i class="fa-brands fa-dribbble app-color-dribbble mr-2"></i>
+                    <span class="font-bold app-color-black text-xs">상표권???</span>
+                </div>
+                <div id="drop" class="flex bg-white px-6 py-4 app-shadow rounded-md mr-6">
+                    <span class="font-bold app-color-black text-xs">Book now</span>
+                    <div class="w-px app-bg-light-white-2 bg-white mx-4"></div>
+                    <i class="fa-regular fa-user mr-2 app-color-black"></i>
+                    <i class="fa-solid fa-angle-down text-xs app-color-black"></i>
+                </div>
+
+            </div>
+            <div class="flex flex-col text-center my-20 ">
+                <span class="font-semibold text-4xl mb-4 app-title">결과가 이렇게 나와요!</span>
+                <span class="app-color-black font-semibold">Explore your travel opprtunities with us!</span>
+
+            </div>
+            <div id="row" class="bg-white/50 w-10/12 px-6 pt-8 pb-8 app-shadow rounded-xl backdrop-blur-[200px]">
+
+                    <div class="upload-box">
+                      <div id="drop-file" class="drag-file">
+                        {% if filename %}
+                          <img class="select_img" src="{{ url_for('static', filename='uploads/' + filename) }}" >
+                        {% else %}
+                           <p>No image uploaded</p>
+                        {% endif %}
+
+                      </div>
+                      <a class="restart" href="{{ url_for('index') }}">Back to Home</a>
+                        <div class="category">
+                            <a class="btn btn-1">{{vertex_res[0]}}</a>
+                            <a class="btn btn-2">{{vertex_res[1]}}</a>
+                            <a class="btn btn-3">{{vertex_res[2]}}</a>
+                        </div>
+                    </div>
+                    <!-- detail -->
+                    <div id="files" class="files">
+                    {% for result in results %}
+                      <div class="file">
+                        <div class="thumbnail">
+                          <img src="{{find_path(result.product_name)}}" alt="파일 타입이미지" class="image">
+                        </div>
+                        <div class="details">
+                          <header class="header">
+
+                              <span class="size"><span class="matchingPercentage">{{ ceil(result.score*100) }}%</span> 매칭</span>
+                          </header>
+                          <div class="progress">
+                            <div class="bar"></div>
+                          </div>
+                        </div>
+                      </div>
+                      {% endfor %}
+
+                    </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

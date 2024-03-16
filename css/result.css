@@ -1,0 +1,361 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.app-container {
+    background: #f3f3ff;
+    min-height: 940px;
+    width: 100%;
+    height: 100vh;
+
+}
+
+.circle {
+    width: 450px;
+    height: 450px;
+    background: linear-gradient(to bottom, #fa39ad 40%, #fe6c4c 50%);
+    filter: blur(120px);
+}
+
+.red {
+    background: #fe624d;
+    border: 2px solid #ee5e4b;
+}
+
+.yellow {
+    background: #FFC432;
+    border: 2px solid #F2BD3A;
+}
+
+.green {
+    background: #5BDE47;
+    border: 2px solid #5FC651;
+}
+
+.app-color-yellow {
+    color: #FFA41D;
+}
+.app-color-black {
+    color: #292B48;
+}
+.app-color-gray {
+    color: #877F95;
+}
+.app-color-lavendar {
+    color: #9EA1CF;
+}
+.app-color-pink {
+    color: #FB28CD;
+}
+
+.app-bg-lavendar {
+    color: #D5D7FF;
+}
+
+.app-bg-light-white {
+    color: #F7F8FF;
+}
+.app-bg-light-white-2 {
+    color: #EFF2FC;
+}
+
+.app-color-dribbble {
+    color: #E04B85;
+}
+
+.app-shadow {
+    box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.03);
+}
+
+.app-title {
+    background: linear-gradient(45deg, #fb28cd, #7c65d7);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+}
+
+span.active {
+    position: relative;
+    color: #292b48;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+
+span.active::after {
+    content: '';
+    width: 200%;
+    height: 2px;
+    background: #292b48;
+    position: absolute;
+    bottom: -20px;
+}
+
+.switch-checkbox {
+    display: none;
+}
+
+.switch {
+    position: relative;
+}
+
+.switch-bg {
+    height: 24px;
+    width: 44px;
+    background: #fb28cd;
+    border-radius: 15px;
+}
+
+.switch-indicator {
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    background: #fb28cd;
+    border: 5px solid white;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: .2s ease-out;
+}
+
+
+.switch-checkbox:checked~.switch-indicator{
+    transform: translateX(100%);
+}
+
+.switch-checkbox:checked~.switch-bg {
+    background: #e9ecfa;
+}
+
+
+/* 새로 추가*/
+#row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#row .upload-box {
+  width: calc(50% - 15px);
+  box-sizing: border-box;
+  margin-right: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#row .upload-box .drag-file{
+  width: 90%;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* border: 3px dashed #dbdbdb; */
+  margin-bottom: 20px;
+  border-radius: 20px;    /* 새로운 디자인*/
+  background: rgba(255, 255, 255, 0.4);
+  overflow: hidden;
+
+}
+#row .upload-box .drag-file.hover {
+  border: 3px dashed #7c65d7;
+}
+#row .upload-box .drag-file .image {
+  width: 40px;
+}
+#row .upload-box .drag-file .select_img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+#row .upload-box .drag-file .message {
+  margin-bottom: 0;
+}
+
+#row .upload-box .restart{
+  margin-top: 30px;
+  background-color: rgb(239, 190, 31);
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
+  width: 90%;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+}
+/* model result category btn 시작 */
+.category {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+  /* width: 80vw; */
+  width: 90%;
+  margin-top: 30px;
+  /* margin: 0 auto; */
+  /* min-height: 100vh; */
+}
+.btn {
+  flex: 1 1 auto;
+  /* margin: 10px; */
+
+  margin-bottom: 10px;
+  padding: 10px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+ /* text-shadow: 0px 0px 10px rgba(0,0,0,0.2);*/
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+  /* border-radius: 50%; */
+ }
+
+/* Demo Stuff End -> */
+
+/* <- Magic Stuff Start */
+
+.btn:hover {
+  background-position: right center; /* change the direction of the change here */
+}
+
+.btn-1 {
+  background-image: linear-gradient(to right, #f6d365 0%, #fda085 51%, #f6d365 100%);
+}
+
+.btn-2 {
+  background-image: linear-gradient(to right, #fbc2eb 0%, #a6c1ee 51%, #fbc2eb 100%);
+  margin-left: 10px;
+}
+
+.btn-3 {
+  background-image: linear-gradient(to right, #84fab0 0%, #8fd3f4 51%, #84fab0 100%);
+  margin-left: 10px;
+}
+
+/* 모델 카테도리  end  */
+
+/* detail 부분 정리*/
+#row .files {
+  width: calc(50% - 15px);
+  box-sizing: border-box;
+  overflow: auto;
+  height: 100%;
+}
+
+#row .files .file {
+  display: flex;
+  padding: 20px 20px;
+  border-bottom: 1px solid #dbdbdb;
+}
+#row .files .file:last-child {
+  margin-bottom: 0px;
+  border-bottom: none;
+}
+#row .files .file .thumbnail {
+  display: flex;
+  flex: none;
+  width: 100px;
+  height: 100px;
+  margin: 20px;
+  border: solid 1px black;
+  border-radius: 20px;
+  /* margin-right: 20px; */
+  align-items: center;
+  overflow: hidden;
+
+}
+#row .files .file .thumbnail .image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* 새로 적용 시작 */
+.details {
+  overflow: hidden;
+  height: 100px;
+  width: 80%;
+  margin: 20px;
+  padding: 5px 3px 5px 18px;
+  box-sizing: border-box;
+}
+.header {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  margin-top: 10px;
+  font-size: 20px;
+}
+.progress {
+  position: relative;
+  height: 6px;
+  background-color: #dbdbdb;
+  overflow: hidden;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+.bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+  background-color: #5b975b;
+  transition: width 2s ease;
+}
+/* 새로 적용 끝 */
+
+
+
+/* 모바일 화면 처리 */
+
+@media(max-width: 800px) {
+    #drop {
+        display: none;
+    }
+
+    #row .upload-box {
+        width: 100%;
+        box-sizing: border-box;
+        margin-right: 0;
+    }
+    #row .upload-box .drag-file {
+        height: 250px;
+    }
+    #row .files {
+        width: 100%;
+        box-sizing: border-box;
+        margin-right: 0;
+        overflow: initial;
+    }
+    .btn-3 {
+        margin-left: 0px;
+    }
+}
+
+@media(max-width: 700px) {
+  #drop {
+        display: none;
+  }
+
+  #row .upload-box {
+    width: 100%;
+    box-sizing: border-box;
+    margin-right: 0;
+  }
+  #row .upload-box .drag-file {
+    height: 160px;
+  }
+  #row .files {
+      width: 100%;
+      box-sizing: border-box;
+      margin-right: 0;
+      overflow: initial;
+  }
+}

@@ -1,0 +1,5 @@
+Flask
+google-cloud-vision
+gunicorn
+Werkzeug
+google-cloud-aiplatform
