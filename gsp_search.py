@@ -18,6 +18,7 @@ The first function is a helper function to return the full GCP bucket address of
 and the second function is the driver function for getting matching products from the existing product set.
 """
 
+#generic
 URL = "the correct path to the open url"
 
 def find_path(whole_path):
