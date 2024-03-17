@@ -31,7 +31,6 @@ DEFAULT_URI = "gs://markit23-v2/"
 #function to decode a text file for google cloud uris
 
 # Function to write a line to the CSV file
-#FIXME this needs to write to a new file every 20,000 images
 def write_csv_line(csv_writer, image_uri, image_id, product_set_id, product_id, product_category, product_display_name=" ", labels="", bounding_poly=""):
     csv_writer.writerow([image_uri, image_id, product_set_id, product_id, product_category, product_display_name, labels, bounding_poly])
 
