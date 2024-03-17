@@ -16,7 +16,7 @@ start = 0
 end = 40
 
 def main():
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "C:\\Users\\user\\Downloads\\markit_key.json"
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "YOUR_KEY"
     for num in range(start, end):
         try:
             func(num)
@@ -121,7 +121,7 @@ def import_product_sets(project_id, location, gcs_uri):
 
 def func(numv):
     docnum = numv
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "C:\\Users\\user\\Downloads\\markit_key.json"
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "YOUR_KEY"
     # create_product_set('app', 'asia-northeast03', 'example-set', 'vision-example-set') example one liner
     csv_uri = f"gs://markit23-v2/image_output_{docnum}.csv"
     import_product_sets('markit-live-v2', 'us-west1', csv_uri)
