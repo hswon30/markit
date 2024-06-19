@@ -4,14 +4,21 @@ import os
 import re
 from google.cloud import vision
 import math
+
 app = Flask(__name__)
 import base64
 from google.cloud import aiplatform
 from google.cloud.aiplatform.gapic.schema import predict
 from PIL import Image, ImageOps
 import time
+from celery import Celery
+from celery import shared_task
+from celery.result import AsyncResult
+#using celery example: https://www.youtube.com/watch?v=2j3em0QQaMg
+#example 2: https://medium.com/@Aman-tech/celery-with-flask-d1f1c555ceb7
+# software development phase: https://velog.io/@with667800/%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%EA%B0%9C%EB%B0%9C-%EB%8B%A8%EA%B3%84
 
-#GLOBALS
+# GLOBALS
 ##################################################################################################################
 UPLOAD_FOLDER = 'static/uploads/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -25,42 +32,45 @@ max_results = 3
 # os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "C:\\Users\\Yejin\\Documents\\gcloud_api.json"
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "C:\\Users\\user\\Downloads\\markit_key.json"
 # for session cookie
-app.secret_key = "hswon_my_secret_key"          # -> 이게 뭘 의미하는지 모르겠음22222222
+app.secret_key = "hswon_my_secret_key"  # -> 이게 뭘 의미하는지 모르겠음22222222
+
+celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
 #############################################################################################################
 
 
 # vertex ai
 ################################################################################################################
 vin_dict = {
-    "Circles":"원형",
-    "Lines,bands,bars":"선,봉",
-    "Squares":"정사각형",
-    "Rectangles":"직사각형",
-    "Natural_phenomena":"자연현상",
-    "Cats,dogs,wolves,foxes,bears,lions,tigers":"육식동물",
-    "Birds,bats":"조류,박쥐",
-    "Parts_of_the_human_body,skeletons,skulls":"인체",
-    "Polygons(geometric_figures_with_five_or_more_sides)":"폴리곤",
-    "Trees,bushes":"나무,수풀",
-    "Inscriptions":"각인",
-    "Diamonds":"마름모",
-    "Men":"사람",
-    "Shields,crests":"방패,인장",
-    "Headwear":"모자",
-    "Stars,comets":"별,혜성",
+    "Circles": "원형",
+    "Lines,bands,bars": "선,봉",
+    "Squares": "정사각형",
+    "Rectangles": "직사각형",
+    "Natural_phenomena": "자연현상",
+    "Cats,dogs,wolves,foxes,bears,lions,tigers": "육식동물",
+    "Birds,bats": "조류,박쥐",
+    "Parts_of_the_human_body,skeletons,skulls": "인체",
+    "Polygons(geometric_figures_with_five_or_more_sides)": "폴리곤",
+    "Trees,bushes": "나무,수풀",
+    "Inscriptions": "각인",
+    "Diamonds": "마름모",
+    "Men": "사람",
+    "Shields,crests": "방패,인장",
+    "Headwear": "모자",
+    "Stars,comets": "별,혜성",
     "Globes": "지구",
-    "Sun":"태양",
-    "Leaves,branches_with_leaves_or_needles,needles":"나뭇잎",
-    "Ovals":"타원"
+    "Sun": "태양",
+    "Leaves,branches_with_leaves_or_needles,needles": "나뭇잎",
+    "Ovals": "타원"
 }
 
-#vertex AI 모델 사용
+
+# vertex AI 모델 사용
 def predict_image_object_detection_sample(
-    project: str,
-    endpoint_id: str,
-    filename: str,
-    location: str = "us-central1",
-    api_endpoint: str = "us-central1-aiplatform.googleapis.com"
+        project: str,
+        endpoint_id: str,
+        filename: str,
+        location: str = "us-central1",
+        api_endpoint: str = "us-central1-aiplatform.googleapis.com"
 ):
     # The AI Platform services require regional API endpoints.
     client_options = {"api_endpoint": api_endpoint}
@@ -107,8 +117,9 @@ def predict_image_object_detection_sample(
 
         return final
 
+
 ###################################################################################################################3
-#제품검색
+# 제품검색
 def product_search(
         project_id,
         location,
@@ -138,8 +149,7 @@ def product_search(
 
     # Read the image as a stream of bytes.
 
-
-    #FIXME
+    # FIXME
     with open(file_path, "rb") as image_file:
         content = image_file.read()
         # content = res_img.read()
@@ -163,8 +173,6 @@ def product_search(
         image, image_context=image_context, max_results=max_results
     )
 
-
-
     index_time = response.product_search_results.index_time
     print("Product set index time: ")
     print(index_time)
@@ -184,6 +192,7 @@ def product_search(
         print(f"Product description: {product.description}\n")
         print(f"Product labels: {product.product_labels}\n")
     return results
+
 
 # 인터넷에 노출된 img패스 찾는 코드. 직접 for문 돌려서 3번 실행 or 코드 수정
 def find_path(whole_path):
@@ -208,11 +217,36 @@ def find_path(whole_path):
         print("No match found.")
 
 
+@shared_task(ignore_result=False)
+def fetch_results(filename):
+    search_res = product_search(project_id, location, product_set_id,
+                          product_category, filename, "", max_results)
+
+    vision_res = predict_image_object_detection_sample(
+        project="markit-live-v2",
+        endpoint_id="7456898854693109760",
+        location="us-central1",
+        filename=filename
+    )
+
+    return search_res, vision_res
+
+
+# @celery.task
+# def vision_res(filename):
+#     return predict_image_object_detection_sample(
+#         project="markit-live-v2",
+#         endpoint_id="7456898854693109760",
+#         location="us-central1",
+#         filename=filename
+#     )
+
 
 @app.route('/')
 def index():
     session.modified = True
     return render_template('index.html')
+
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -226,9 +260,9 @@ def upload_file():
 
     if file:
         filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-        #resize
-        file.save(filename)
 
+        # resize
+        file.save(filename)
 
         img = Image.open(file)
         res_img = img.resize((1024, 1024))
@@ -257,7 +291,6 @@ def upload_file():
         results = product_search(project_id, location, product_set_id,
                                  product_category, filename, "", max_results)
 
-
         # driver code for vertex results
         vertex_res = predict_image_object_detection_sample(
             project="markit-live-v2",
@@ -265,8 +298,6 @@ def upload_file():
             location="us-central1",
             filename=filename
         )
-
-
 
         session['vertex_res'] = vertex_res
         session.modified = True
@@ -280,25 +311,28 @@ def upload_file():
             for res in results
         ]
 
-        print("sending results:", serializable_results)
-
         session['image_results'] = serializable_results
         session.modified = True
 
-
         return redirect(url_for('display_uploaded_file', filename=file.filename))
-        #return filename  # Return the uploaded file's path
+        # return filename  # Return the uploaded file's path
 
 
-
-#@app.route('/uploads/<filename>')
-# @app.route('/uploads')
 @app.route('/uploads/<filename>')
 def display_uploaded_file(filename):
-    print("Filename in display_uploaded_file:", filename)
     results = session['image_results']
     vertex_res = session['vertex_res']
-    return render_template('result.html', results=results, filename=filename, find_path=find_path, ceil = math.ceil, vertex_res = vertex_res)
+    return render_template('result.html', results=results, filename=filename, find_path=find_path, ceil=math.ceil,
+                           vertex_res=vertex_res)
+
+
+
+@app.route('/uploads/<res_id>')
+def display_uploaded_file(res_id):
+    result = AsyncResult(res_id)
+    if result.ready():
+        search_res, vision_res = result.result
+        return render_template('result.html', search_results=search_res, vision_results=vision_res)
 
 
 # js 경로 찾기
@@ -307,6 +341,7 @@ def serve_static(filename):
     root_dir = os.path.abspath(os.path.dirname(__file__))
     return send_from_directory(os.path.join(root_dir, 'static'), filename)
 
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)
-    #serve(app, host='127.0.0.1', port=8000)
+    # serve(app, host='127.0.0.1', port=8000)
