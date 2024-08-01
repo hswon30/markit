@@ -17,13 +17,14 @@ Markit also supports direct upload of photos from your phone, although we sugges
 
 For more information on this project, please see the [Official makings document](https://github.com/hswon30/markit/blob/795d8c45eecb902d6c7be88b540b637fad740d5a/GCP_markit_%EB%B0%9C%ED%91%9C_%EC%B5%9C%EC%A2%85.pptx.pdf). (In Korean)
 
-#Demo
+# Demo
 
+
+You can watch the working demo here:
 
 https://github.com/user-attachments/assets/248fb844-4fe7-412e-9e18-8b76bcbeb524
 
 
-You can watch the working demo here, where we test the app with various logos:
 
 
 
