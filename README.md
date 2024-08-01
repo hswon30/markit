@@ -15,4 +15,4 @@ If you don't have an image of your logo in an appropriate format, that's ok too!
 
 Markit also supports direct upload of photos from your phone, although we suggest a file size no larger than 5MB for optimal results. 
 
-For more information on this project, (in Korean only) please see the [Official makings document](https://github.com/hswon30/markit/blob/795d8c45eecb902d6c7be88b540b637fad740d5a/GCP_markit_%EB%B0%9C%ED%91%9C_%EC%B5%9C%EC%A2%85.pptx.pdf).
+For more information on this project, please see the [Official makings document](https://github.com/hswon30/markit/blob/795d8c45eecb902d6c7be88b540b637fad740d5a/GCP_markit_%EB%B0%9C%ED%91%9C_%EC%B5%9C%EC%A2%85.pptx.pdf). (In Korean)
